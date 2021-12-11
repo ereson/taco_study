@@ -42,4 +42,10 @@ public class Order {
 
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
+
+    private Taco taco;
+
+    public void addDesign(Taco taco) {
+        this.taco = taco;
+    }
 }

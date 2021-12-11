@@ -1,8 +1,10 @@
 package com.ereson.toca.web;
 
 import com.ereson.toca.Ingredient;
+import com.ereson.toca.Order;
 import com.ereson.toca.Taco;
 import com.ereson.toca.data.IngredientRepository;
+import com.ereson.toca.data.TacoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +25,23 @@ public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
 
+    private TacoRepository designRepo;
+
+
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
         this.ingredientRepository = ingredientRepository;
+        this.designRepo = tacoRepository;
+    }
+
+    @ModelAttribute(name = "order")
+    public Order order() {
+        return new Order();
+    }
+
+    @ModelAttribute(name = "taco")
+    public Taco taco() {
+        return new Taco();
     }
 
     @GetMapping
@@ -51,10 +67,13 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors){
+    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, @ModelAttribute Order order){
         if (errors.hasErrors()) {
             return "design";
         }
+
+        Taco saved = designRepo.save(design);
+        order.addDesign(saved);
 
         log.info("Processing design: " + design);
 
