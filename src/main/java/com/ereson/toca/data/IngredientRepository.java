@@ -2,7 +2,7 @@ package com.ereson.toca.data;
 
 import com.ereson.toca.Ingredient;
 
-public interface IngredientRepository {
+public interface IngredientRepository  {
 
     Iterable<Ingredient> findAll();
 
