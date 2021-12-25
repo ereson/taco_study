@@ -6,6 +6,8 @@ import com.ereson.toca.data.OrderRepository;
 import com.ereson.toca.data.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
+
 
 @Slf4j
 @Controller
@@ -39,6 +42,16 @@ public class OrderController {
     public String orderForm(Model model){
         model.addAttribute("order", new Order());
         return "orderForm";
+    }
+
+    @GetMapping
+    public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+    //@AuthenticationPrincipal注解可以获取当前登录人的信息
+
+        Pageable pageable = PageRequest.of(0, 20);
+        model.addAttribute("orders", orderRepo.findByUserOrderByPlaceAtDesc(user,pageable));
+
+        return "orderList";
     }
 
     //注入principal对象

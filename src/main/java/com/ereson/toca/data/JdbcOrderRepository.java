@@ -2,6 +2,7 @@ package com.ereson.toca.data;
 
 import com.ereson.toca.Order;
 import com.ereson.toca.Taco;
+import com.ereson.toca.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class JdbcOrderRepository implements OrderRepository {
+public class JdbcOrderRepository {
 
     private SimpleJdbcInsert orderInserter;
 
@@ -31,7 +32,6 @@ public class JdbcOrderRepository implements OrderRepository {
         this.objectMapper = new ObjectMapper();
     }
 
-    @Override
     public Order save(Order order) {
         order.setPlacedAt(new Date());
         //将订单信息保存到数据库中，然后返回生成的id
@@ -42,6 +42,7 @@ public class JdbcOrderRepository implements OrderRepository {
         tacos.forEach(taco -> saveTacoToOrder(taco, orderId));
         return order;
     }
+
 
     private long saveOrderDetails(Order order) {
         @SuppressWarnings("unchecked")

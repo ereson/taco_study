@@ -1,0 +1,5 @@
+logging:
+  file: /var/logs/TacoCloud.log
+  level:
+    root: WARN
+    org.springframework.security: DEBUG
