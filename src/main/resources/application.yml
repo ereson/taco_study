@@ -1,5 +1,12 @@
 logging:
+  ##设置日志路径和日志文件名
   file: /var/logs/TacoCloud.log
+  ##设置日志级别
   level:
     root: WARN
     org.springframework.security: DEBUG
+
+##设置页面大小
+taco:
+  orders:
+    pageSize : 10

@@ -6,6 +6,7 @@ import com.ereson.toca.data.OrderRepository;
 import com.ereson.toca.data.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -27,9 +28,18 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
+@ConfigurationProperties(prefix = "taco.orders")
 public class OrderController {
 
     private OrderRepository orderRepo;
+
+    //设置页面大小的默认值
+    private int pageSize = 20;
+
+    //可以从配置文件中注入pageSize
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
 
     @Autowired
     private UserRepository userRepository;
@@ -44,12 +54,18 @@ public class OrderController {
         return "orderForm";
     }
 
+    /**
+     * 显示最近的订单
+     * @param user
+     * @param model
+     * @return
+     */
     @GetMapping
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
     //@AuthenticationPrincipal注解可以获取当前登录人的信息
 
         Pageable pageable = PageRequest.of(0, 20);
-        model.addAttribute("orders", orderRepo.findByUserOrderByPlaceAtDesc(user,pageable));
+        model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user,pageable));
 
         return "orderList";
     }
