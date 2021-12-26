@@ -33,19 +33,15 @@ public class OrderController {
 
     private OrderRepository orderRepo;
 
-    //设置页面大小的默认值
-    private int pageSize = 20;
-
-    //可以从配置文件中注入pageSize
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
+    private OrderProps orderProps;
 
     @Autowired
     private UserRepository userRepository;
 
-    public OrderController(OrderRepository orderRepo) {
+    //通过构造器注入
+    public OrderController(OrderRepository orderRepo, OrderProps orderProps) {
         this.orderRepo = orderRepo;
+        this.orderProps = orderProps;
     }
 
     @GetMapping("/current")
@@ -64,7 +60,8 @@ public class OrderController {
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
     //@AuthenticationPrincipal注解可以获取当前登录人的信息
 
-        Pageable pageable = PageRequest.of(0, 20);
+        //从orderProps中获取页面大小
+        Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
         model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user,pageable));
 
         return "orderList";

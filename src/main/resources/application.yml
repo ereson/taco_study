@@ -10,3 +10,20 @@ logging:
 taco:
   orders:
     pageSize : 10
+
+---
+##设置一个profiles名为prod
+##激活profiles
+spring:
+  profiles:
+    active:
+      - prod
+
+  dataSource:
+    url : jdbc:mysql://localhost/tacocloud
+    username: tacouser
+    password: tacopassword
+
+logging:
+  level:
+    tacos: WARN
