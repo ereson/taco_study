@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 @Repository
-public class JdbcTacoRepository implements TacoRepository {
+public class JdbcTacoRepository  {
 
     private JdbcTemplate jdbc;
 
@@ -22,7 +22,7 @@ public class JdbcTacoRepository implements TacoRepository {
         this.jdbc = jdbc;
     }
 
-    @Override
+
     public Taco save(Taco taco) {
         //保存taco信息，并获取主键id
         long tacoId  = saveTacoInfo(taco);
