@@ -10,6 +10,20 @@ logging:
 taco:
   orders:
     pageSize : 10
+##设置基础访问路径
+spring:
+  data:
+    rest:
+      base-path: /api
+##设置jms，设置代理ActiveMQ
+  activemq:
+    broker-url: tcp://activemq.tacocloud.com
+    user: tacoweb
+    password: 13tm31n
+##设置消息发送的默认目的地
+  jms:
+    template:
+      default-destination: tacocloud.order.queue
 
 ---
 ##设置一个profiles名为prod

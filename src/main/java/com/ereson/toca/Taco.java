@@ -1,6 +1,7 @@
 package com.ereson.toca;
 
 import lombok.Data;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,8 +9,12 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * RestResource注解可以设置链接中对资源名
+ */
 @Data
 @Entity
+@RestResource(rel = "tacos", path = "tacos")
 public class Taco{
     /**
      * id
