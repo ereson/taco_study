@@ -28,9 +28,9 @@ public class RounterIntegrationConfig {
             protected Collection<MessageChannel> determineTargetChannels(Message<?> message) {
                 Integer number = (Integer) message.getPayload();
                 if (number % 2 == 0)  return singleton(evenChannel());
-                else  return Collections.singleton(oddChannel());
+                return Collections.singleton(oddChannel());
             }
-        }
+        };
     }
 
     /**

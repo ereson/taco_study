@@ -25,6 +25,15 @@ spring:
     template:
       default-destination: tacocloud.order.queue
 
+##设置轮询的邮箱的用户名、密码、主机和邮箱和频率
+tacocloud:
+  email:
+    host: imap.tacocloud.com
+    mailbox: INBOX
+    username: taco-in-flow
+    password: 1L0v3T4c0s
+    poll-rate: 10000
+
 ---
 ##设置一个profiles名为prod
 ##激活profiles
